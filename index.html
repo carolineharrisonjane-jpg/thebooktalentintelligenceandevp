@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Book · Mastercard Pilot</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#3D2070;--bg2:#4A2882;--bg3:#52309A;--card:#442478;
+  --p1:#7B5CF0;--p2:#C850FF;--teal:#00E5CC;
+  --white:#fff;--off:#E8EEFF;--soft:#BEC4E8;
+  --border:rgba(200,180,255,0.3);--border2:rgba(255,255,255,0.18);
+  --ok:#1D9E75;--warn:#EF9F27;--bad:#D85A30;
+}
+html,body{min-height:100vh;background:var(--bg);color:var(--white);font-family:'Raleway',sans-serif;font-size:13px;line-height:1.5;overflow-x:hidden}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--p1);border-radius:2px}
+
+nav{position:sticky;top:0;z-index:100;background:rgba(61,32,112,0.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:52px}
+.logo{display:flex;align-items:baseline}
+.lwh{font-size:14px;font-weight:900;color:#fff}
+.lgr{font-size:14px;font-weight:900;background:linear-gradient(90deg,#B09FF8,#F06FFF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.npill{font-size:9px;font-weight:700;padding:3px 8px;border-radius:20px;background:rgba(0,229,204,0.1);color:var(--teal);border:1px solid rgba(0,229,204,0.25)}
+.nav-av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--p1),var(--p2));display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;cursor:pointer}
+
+.stepper{display:flex;align-items:center;padding:0 28px;height:44px;background:var(--bg2);border-bottom:1px solid var(--border2);overflow-x:auto}
+.step{display:flex;align-items:center;gap:6px;padding:0 16px;height:100%;cursor:pointer;font-size:10px;font-weight:700;letter-spacing:.5px;color:var(--soft);text-transform:uppercase;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;flex-shrink:0}
+.step.active{color:#fff;border-bottom-color:var(--p1)}
+.step.done{color:var(--soft)}
+.sn{width:17px;height:17px;border-radius:50%;background:var(--bg3);border:1px solid rgba(255,255,255,0.35);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0}
+.step.active .sn{background:var(--p1);border-color:var(--p1);color:#fff}
+.step.done .sn{background:var(--teal);border-color:var(--teal);color:var(--bg)}
+.sa{color:var(--border2);padding:0 2px;font-size:11px;flex-shrink:0}
+
+main{padding:26px 28px 60px;max-width:1080px;margin:0 auto}
+.panel{display:none;animation:fi .25s ease}
+.panel.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+.ey{font-size:10px;font-weight:800;letter-spacing:2px;color:var(--teal);text-transform:uppercase;margin-bottom:4px}
+.ti{font-size:19px;font-weight:700;line-height:1.25;margin-bottom:3px}
+.sb{font-size:12px;color:var(--off);margin-bottom:22px}
+.lbl{font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--soft);text-transform:uppercase;margin-bottom:10px}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 18px}
+.div{height:1px;background:var(--border2);margin:16px 0}
+
+.up{background:rgba(123,92,240,0.12);border:1px solid rgba(200,180,255,0.35);border-radius:10px;padding:14px 16px;margin-bottom:14px;position:relative}
+.up::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--p1),var(--p2));border-radius:2px 0 0 2px}
+.up-ey{font-size:10px;font-weight:800;letter-spacing:1.8px;color:var(--p1);margin-bottom:9px}
+.ur{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.06)}
+.ur:last-child{border:none;padding-bottom:0}
+.uk{font-size:12px;color:var(--off);font-weight:500}
+.uv{font-size:12px;font-weight:700}
+.pi{font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;white-space:nowrap}
+.pok{background:rgba(29,158,117,0.15);color:#5DFFD0;border:1px solid rgba(29,158,117,0.25)}
+.pdr{background:rgba(239,159,39,0.15);color:#FFD080;border:1px solid rgba(239,159,39,0.25)}
+.prk{background:rgba(216,90,48,0.15);color:#FF9060;border:1px solid rgba(216,90,48,0.25)}
+
+.sn2{font-size:24px;font-weight:700;line-height:1}
+.sl{font-size:11px;color:var(--off);margin-bottom:4px;font-weight:500}
+.st{font-size:11px;margin-top:3px;font-weight:500}
+.tu{color:#5DFFD0}.td{color:#FF9060}.tw{color:#FFD080}
+.sbar{height:3px;border-radius:2px;background:rgba(255,255,255,0.1);margin-top:9px;overflow:hidden}
+.sf{height:100%;border-radius:2px;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+
+.proc{text-align:center;padding:50px 24px}
+.pr{width:40px;height:40px;border-radius:50%;border:2px solid rgba(123,92,240,0.2);border-top-color:var(--p1);animation:spin .7s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.psteps{display:flex;flex-direction:column;gap:7px;max-width:280px;margin:22px auto 0}
+.ps{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--off)}
+.ps.done{color:#fff}
+.pc{width:16px;height:16px;border-radius:50%;flex-shrink:0;border:1px solid var(--soft);display:flex;align-items:center;justify-content:center;font-size:8px;transition:all .3s}
+.ps.done .pc{background:var(--teal);border-color:var(--teal);color:var(--bg)}
+
+.fn{font-size:26px;font-weight:700;background:linear-gradient(90deg,#B09FF8,#F06FFF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.fl{font-size:11px;color:var(--off);margin-top:3px}
+.cw{position:relative;width:100%;height:195px;margin:12px 0}
+.leg{display:flex;gap:12px;font-size:11px;color:var(--off);flex-wrap:wrap}
+.leg span{display:flex;align-items:center;gap:4px}
+.ld{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+
+.rc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:11px;cursor:pointer;transition:all .2s;margin-bottom:8px}
+.rc:hover{border-color:rgba(200,180,255,0.5)}
+.rc.sel{border-color:var(--teal);background:rgba(0,229,204,0.04)}
+.ri{width:32px;height:32px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px}
+.rih{background:rgba(216,90,48,0.15)}.rim{background:rgba(239,159,39,0.15)}.ril{background:rgba(29,158,117,0.15)}
+.rct{font-size:13px;font-weight:700;margin-bottom:2px}
+.rcm{font-size:11px;color:var(--off)}
+.rcr{text-align:right;flex-shrink:0}
+.rcw{font-size:12px;font-weight:700}
+.rcc{font-size:11px;color:var(--off);margin-bottom:3px}
+.cb{width:56px;height:3px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;float:right;margin-top:3px}
+.cf{height:100%;background:linear-gradient(90deg,var(--p1),var(--p2))}
+
+.tsh{background:rgba(0,229,204,0.06);border:1px solid rgba(0,229,204,0.22);border-radius:10px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.tsht{font-size:13px;font-weight:700;color:var(--teal);margin-bottom:2px}
+.tshs{font-size:11px;color:var(--off)}
+.tshn{font-size:22px;font-weight:700;color:var(--teal);line-height:1}
+
+.tc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin-bottom:10px;transition:border-color .2s}
+.tc:hover{border-color:rgba(200,180,255,0.4)}
+.tc.top{border-color:rgba(0,229,204,0.35);position:relative}
+.tc.top::after{content:'TOP MATCH';position:absolute;top:0;right:12px;font-size:9px;font-weight:700;letter-spacing:.7px;color:var(--teal);transform:translateY(-50%);background:var(--bg2);padding:0 6px}
+.tct{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.av{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff}
+.tcn{font-size:13px;font-weight:800;margin-bottom:1px}
+.tcr{font-size:11px;color:var(--off);margin-bottom:2px}
+.tcp{font-size:11px;font-weight:700}
+.tcs{margin-left:auto;text-align:right;flex-shrink:0}
+.tcsn{font-size:22px;font-weight:700;background:linear-gradient(90deg,#B09FF8,#F06FFF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.tcsl{font-size:10px;color:var(--off)}
+.tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px}
+.tg{font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px}
+.thi{background:rgba(29,158,117,0.15);color:#5DFFD0;border:1px solid rgba(29,158,117,0.2)}
+.tn{background:rgba(255,255,255,0.06);color:var(--soft);border:1px solid rgba(255,255,255,0.1)}
+.tq{font-size:12px;color:var(--off);font-style:italic;line-height:1.6;border-left:2px solid rgba(200,180,255,0.4);padding-left:10px;margin-bottom:10px;font-weight:400}
+.tcb{display:flex;align-items:center;justify-content:space-between}
+.avl{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700}
+.ad{width:7px;height:7px;border-radius:50%}
+.aok{color:#5DFFD0}.aw{color:#FFD080}
+.acts{display:flex;gap:6px}
+.bx{font-size:11px;font-weight:700;padding:5px 12px;border-radius:7px;cursor:pointer;border:1px solid;font-family:inherit;transition:all .15s}
+.bt{background:rgba(0,229,204,0.08);color:var(--teal);border-color:rgba(0,229,204,0.25)}
+.bt:hover{background:rgba(0,229,204,0.16)}
+.bg{background:transparent;color:var(--soft);border-color:rgba(255,255,255,0.12)}
+.bg:hover{color:var(--off);border-color:rgba(255,255,255,0.2)}
+
+.plstat{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin-top:18px}
+.plbar{height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;margin:12px 0}
+.plf{height:100%;background:linear-gradient(90deg,var(--p1),var(--teal));transition:width 1.4s ease}
+.bench{display:flex;gap:8px;margin-top:10px}
+.bi{flex:1;background:var(--bg3);border-radius:8px;padding:9px 10px;text-align:center}
+.bin{font-size:14px;font-weight:800}
+.bil{font-size:10px;color:var(--off);margin-top:2px;font-weight:500}
+
+.bp{display:inline-flex;align-items:center;gap:5px;justify-content:center;background:linear-gradient(90deg,var(--p1),var(--p2));color:#fff;border:none;border-radius:9px;padding:10px 22px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .15s}
+.bp:hover{opacity:.88}
+.bs{display:inline-flex;align-items:center;gap:4px;background:var(--bg3);color:var(--off);border:1px solid var(--border2);border-radius:9px;padding:9px 16px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.bs:hover{border-color:rgba(200,180,255,0.35);color:#fff}
+.nb{display:flex;justify-content:space-between;align-items:center;margin-top:20px;gap:9px}
+
+.ib{background:rgba(0,229,204,0.07);border:1px solid rgba(0,229,204,0.22);border-radius:9px;padding:12px 14px;font-size:12px;color:var(--off);line-height:1.6}
+.ib b{font-weight:700;color:#fff}
+
+/* EVP */
+.evp-dim{background:rgba(255,255,255,0.05);border:1px solid rgba(200,180,255,0.18);border-radius:9px;padding:12px 15px;margin-bottom:9px}
+.evp-dim-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.evp-dim-label{font-size:12px;font-weight:600;color:#fff}
+.evp-dim-score{font-size:15px;font-weight:800}
+.evp-dim-bar{height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;margin-bottom:6px}
+.evp-dim-fill{height:100%;border-radius:2px;transition:width 1s ease}
+.evp-dim-note{font-size:10px;color:rgba(200,210,240,0.75)}
+.want-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.07)}
+.want-row:last-child{border:none}
+.want-label{flex:1;font-size:11px;color:var(--off)}
+.want-pct{font-size:11px;font-weight:700;color:#B09FF8;min-width:32px;text-align:right}
+.want-bar{width:80px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden}
+.want-fill{height:100%;background:linear-gradient(90deg,#7B5CF0,#C850FF);border-radius:2px}
+.gap-card{border:1px solid rgba(200,180,255,0.2);border-radius:9px;overflow:hidden;margin-bottom:9px}
+.gap-top{background:rgba(216,90,48,0.12);padding:10px 14px;font-size:11px;font-weight:600;color:#FF9060;border-bottom:1px solid rgba(255,255,255,0.06)}
+.gap-bot{background:rgba(0,229,204,0.05);padding:10px 14px;font-size:11px;color:var(--off)}
+.evp-textarea{width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(200,180,255,0.25);border-radius:9px;padding:12px 14px;font-size:12px;color:#fff;font-family:'Raleway',sans-serif;resize:vertical;min-height:100px;line-height:1.6;outline:none;transition:border-color .2s}
+.evp-textarea:focus{border-color:rgba(200,180,255,0.5)}
+.evp-role-pick{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div style="display:flex;align-items:center;gap:18px">
+    <div class="logo"><span class="lwh">THE BOO</span><span class="lgr">K.</span></div>
+    <div style="font-size:11px;color:var(--soft)">Client: <b style="color:var(--teal);font-weight:600">Mastercard EMEA</b></div>
+  </div>
+  <div style="display:flex;align-items:center;gap:9px">
+    <div class="npill">PILOT · LIVE</div>
+    <div class="nav-av">JK</div>
+  </div>
+</nav>
+
+<div class="stepper">
+  <div class="step active" onclick="goto(0)" id="stp0"><div class="sn">1</div>Data intake</div>
+  <div class="sa">›</div>
+  <div class="step" onclick="goto(1)" id="stp1"><div class="sn">2</div>Signals</div>
+  <div class="sa">›</div>
+  <div class="step" onclick="goto(2)" id="stp2"><div class="sn">3</div>Forecast</div>
+  <div class="sa">›</div>
+  <div class="step" onclick="goto(3)" id="stp3"><div class="sn">4</div>Roles</div>
+  <div class="sa">›</div>
+  <div class="step" onclick="goto(4)" id="stp4"><div class="sn">5</div>The Book</div>
+  <div class="sa">›</div>
+  <div class="step" onclick="goto(5)" id="stp5"><div class="sn">6</div>EVP Testing</div>
+</div>
+
+<main>
+
+<!-- ═══ PANEL 0: DATA INTAKE ═══ -->
+<div class="panel active" id="p0">
+  <div class="ey">01 · Data intake</div>
+  <div class="ti">What Mastercard shares with us.</div>
+  <div class="sb">We start with what they already have — no sensitive data required upfront.</div>
+
+  <div class="up">
+    <div class="up-ey">Upstream intent · CPO / CEO level</div>
+    <div class="ur"><span class="uk">Workforce plan</span><span class="uv">+180 headcount · FY25</span><span class="pi pok">Confirmed</span></div>
+    <div class="ur"><span class="uk">Budget</span><span class="uv">£4.2M talent budget</span><span class="pi pok">Confirmed</span></div>
+    <div class="ur"><span class="uk">Priority markets</span><span class="uv">EMEA Commercial · Tech · Product</span><span class="pi pok">Confirmed</span></div>
+    <div class="ur"><span class="uk">M&A activity</span><span class="uv">2 acquisitions planned Q1</span><span class="pi pdr">Draft</span></div>
+  </div>
+
+  <div class="lbl" style="margin-top:18px">Hiring history · 24 months</div>
+  <div class="g2" style="margin-bottom:14px">
+    <div class="card">
+      <div style="font-size:11px;color:var(--off);margin-bottom:10px">Roles filled by function</div>
+      <div class="g2" style="gap:10px">
+        <div><div style="font-size:20px;font-weight:700">47</div><div style="font-size:11px;color:var(--soft)">Commercial</div></div>
+        <div><div style="font-size:20px;font-weight:700">31</div><div style="font-size:11px;color:var(--soft)">Technology</div></div>
+        <div><div style="font-size:20px;font-weight:700">18</div><div style="font-size:11px;color:var(--soft)">Product</div></div>
+        <div><div style="font-size:20px;font-weight:700">12</div><div style="font-size:11px;color:var(--soft)">TA / HR</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div style="font-size:11px;color:var(--off);margin-bottom:10px">Average metrics</div>
+      <div class="ur"><span class="uk">Time to hire</span><span class="uv" style="color:#FFD080">67 days</span></div>
+      <div class="ur"><span class="uk">Cost per hire</span><span class="uv">£74k</span></div>
+      <div class="ur"><span class="uk">Offer accept rate</span><span class="uv" style="color:#FF9060">68%</span></div>
+      <div class="ur"><span class="uk">90-day retention</span><span class="uv" style="color:#FFD080">79%</span></div>
+    </div>
+  </div>
+
+  <div class="lbl">Hardest roles to fill</div>
+  <div class="g3" style="margin-bottom:22px">
+    <div class="card" style="border-color:rgba(216,90,48,0.3)">
+      <div style="font-size:9px;font-weight:800;color:#FF9060;letter-spacing:1px;margin-bottom:6px">High difficulty</div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:3px">Sr Commercial Director</div>
+      <div style="font-size:11px;color:var(--off)">Avg 94 days · 3 failed searches</div>
+    </div>
+    <div class="card" style="border-color:rgba(216,90,48,0.3)">
+      <div style="font-size:9px;font-weight:800;color:#FF9060;letter-spacing:1px;margin-bottom:6px">High difficulty</div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:3px">Head of Product · Fintech</div>
+      <div style="font-size:11px;color:var(--off)">Avg 88 days · niche specialism</div>
+    </div>
+    <div class="card" style="border-color:rgba(239,159,39,0.3)">
+      <div style="font-size:9px;font-weight:800;color:#FFD080;letter-spacing:1px;margin-bottom:6px">Medium difficulty</div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:3px">VP Partnerships</div>
+      <div style="font-size:11px;color:var(--off)">Avg 71 days · B2B required</div>
+    </div>
+  </div>
+  <button class="bp" onclick="goto(1)" style="width:100%">Process signals →</button>
+</div>
+
+<!-- ═══ PANEL 1: SIGNALS ═══ -->
+<div class="panel" id="p1">
+  <div class="ey">02 · Signal processing</div>
+  <div class="ti">Reading the signals.</div>
+  <div class="sb">Four data streams showing where hiring pressure is building — and why.</div>
+  <div class="g2" style="margin-bottom:14px">
+    <div class="card"><div class="sl">Revenue growth QoQ</div><div class="sn2">+23%</div><div class="st tu">↑ Accelerating · expanding commercial</div><div class="sbar"><div class="sf" style="width:0%;background:linear-gradient(90deg,var(--p1),var(--p2))" data-w="78"></div></div></div>
+    <div class="card"><div class="sl">Attrition risk · tech cluster</div><div class="sn2">14%</div><div class="st td">↑ +4pp vs prior year</div><div class="sbar"><div class="sf" style="width:0%;background:#D85A30" data-w="44"></div></div></div>
+    <div class="card"><div class="sl">Time-to-hire velocity</div><div class="sn2">67d</div><div class="st td">↑ Slowing · senior roles +22 days</div><div class="sbar"><div class="sf" style="width:0%;background:#EF9F27" data-w="55"></div></div></div>
+    <div class="card"><div class="sl">Product roadmap velocity</div><div class="sn2">3 launches</div><div class="st tu">↑ Q4 pipeline accelerating</div><div class="sbar"><div class="sf" style="width:0%;background:#1D9E75" data-w="85"></div></div></div>
+  </div>
+  <div class="div"></div>
+  <div class="lbl">What each signal means</div>
+  <div class="card" style="margin-bottom:14px">
+    <div class="ur"><span class="uk" style="max-width:65%">Revenue +23% + workforce plan = commercial hiring in 3–4 months</span><span class="pi pok">High signal</span></div>
+    <div class="ur"><span class="uk" style="max-width:65%">Attrition 14% + slow velocity = replacement pipeline needed now</span><span class="pi pok">High signal</span></div>
+    <div class="ur"><span class="uk" style="max-width:65%">3 product launches + no product owner = critical gap forming</span><span class="pi prk">Urgent</span></div>
+    <div class="ur"><span class="uk" style="max-width:65%">M&A draft + growth markets = potential bulk hiring Q2</span><span class="pi pdr">Watch</span></div>
+  </div>
+  <div class="ib" style="margin-bottom:22px">Upstream intent + 4 downstream signals gives <b>89% forecast confidence.</b> Without the workforce plan this drops to ~54% — we'd be inferring, not predicting.</div>
+  <div class="nb"><button class="bs" onclick="goto(0)">← Back</button><button class="bp" onclick="runForecast()">Run forecast →</button></div>
+</div>
+
+<!-- ═══ PANEL 2: FORECAST ═══ -->
+<div class="panel" id="p2">
+  <div id="pv">
+    <div class="ey">03 · Forecast engine</div>
+    <div class="ti">The Brain is working.</div>
+    <div class="sb">Correlating signals against 24 months of hire patterns.</div>
+    <div class="proc">
+      <div class="pr"></div>
+      <div style="font-size:13px;font-weight:600;margin-bottom:3px">Processing workforce intelligence</div>
+      <div style="font-size:11px;color:var(--off)">Analysing 4 signal streams</div>
+      <div class="psteps">
+        <div class="ps" id="ps1"><div class="pc">✓</div>Reading upstream intent layer</div>
+        <div class="ps" id="ps2"><div class="pc">✓</div>Correlating downstream signals</div>
+        <div class="ps" id="ps3"><div class="pc">✓</div>Mapping historical patterns</div>
+        <div class="ps" id="ps4"><div class="pc">✓</div>Calculating confidence intervals</div>
+        <div class="ps" id="ps5"><div class="pc">✓</div>Generating 6-month forecast</div>
+        <div class="ps" id="ps6"><div class="pc">✓</div>Identifying talent requirements</div>
+      </div>
+    </div>
+  </div>
+  <div id="fv" style="display:none">
+    <div class="ey">03 · Forecast engine</div>
+    <div class="ti">Forecast complete.</div>
+    <div class="sb">11 roles identified across the next 6 months — before a single vacancy is posted.</div>
+    <div class="g4" style="margin-bottom:18px">
+      <div class="card" style="text-align:center"><div class="fn">11</div><div class="fl">Roles predicted</div></div>
+      <div class="card" style="text-align:center"><div class="fn">89%</div><div class="fl">Forecast accuracy</div></div>
+      <div class="card" style="text-align:center"><div class="fn">4.2mo</div><div class="fl">Avg lead time</div></div>
+      <div class="card" style="text-align:center"><div class="fn">£814k</div><div class="fl">Cost saving</div></div>
+    </div>
+    <div class="card">
+      <div class="lbl">Hiring pressure · Nov 2024 – Apr 2025</div>
+      <div class="cw"><canvas id="fcc" role="img" aria-label="Predicted hiring pressure by month">Nov 2, Dec 1, Jan 4, Feb 3, Mar 1, Apr 0.</canvas></div>
+      <div class="leg"><span><span class="ld" style="background:#7B5CF0"></span>Predicted roles</span><span><span class="ld" style="background:rgba(200,80,255,0.35)"></span>Pipeline already building</span></div>
+    </div>
+    <div class="div"></div>
+    <div class="g3" style="margin-bottom:22px">
+      <div class="card" style="border-color:rgba(216,90,48,0.3)"><div style="font-size:9px;font-weight:800;color:#FF9060;letter-spacing:1px;margin-bottom:6px">Critical</div><div style="font-size:13px;font-weight:700;margin-bottom:2px">Commercial</div><div style="font-size:20px;font-weight:700">5 <span style="font-size:11px;color:var(--soft);font-weight:400">roles</span></div><div style="font-size:11px;color:var(--off);margin-top:4px">Revenue growth Jan–Feb spike</div></div>
+      <div class="card" style="border-color:rgba(239,159,39,0.3)"><div style="font-size:9px;font-weight:800;color:#FFD080;letter-spacing:1px;margin-bottom:6px">High pressure</div><div style="font-size:13px;font-weight:700;margin-bottom:2px">Technology</div><div style="font-size:20px;font-weight:700">4 <span style="font-size:11px;color:var(--soft);font-weight:400">roles</span></div><div style="font-size:11px;color:var(--off);margin-top:4px">Attrition + product launches</div></div>
+      <div class="card"><div style="font-size:9px;font-weight:800;color:#5DFFD0;letter-spacing:1px;margin-bottom:6px">Moderate</div><div style="font-size:13px;font-weight:700;margin-bottom:2px">Product</div><div style="font-size:20px;font-weight:700">2 <span style="font-size:11px;color:var(--soft);font-weight:400">roles</span></div><div style="font-size:11px;color:var(--off);margin-top:4px">Roadmap velocity signal</div></div>
+    </div>
+    <div class="nb"><button class="bs" onclick="goto(1)">← Back</button><button class="bp" onclick="goto(3)">See predicted roles →</button></div>
+  </div>
+</div>
+
+<!-- ═══ PANEL 3: ROLES ═══ -->
+<div class="panel" id="p3">
+  <div class="ey">04 · Role predictions</div>
+  <div class="ti">11 roles. Before they exist.</div>
+  <div class="sb">Select a role to see matched talent from The Book.</div>
+
+  <div class="rc sel" id="rc0" onclick="selR(0)"><div class="ri rih">⚡</div><div style="flex:1"><div class="rct">Senior Commercial Director · EMEA</div><div class="rcm">Revenue +23% · 3 open territories · budget confirmed</div></div><div class="rcr"><div class="rcw">Jan 2025</div><div class="rcc">94% confidence</div><div class="cb"><div class="cf" style="width:94%"></div></div></div></div>
+  <div class="rc" id="rc1" onclick="selR(1)"><div class="ri rih">⚡</div><div style="flex:1"><div class="rct">Head of Product · Fintech</div><div class="rcm">3 Q4 launches · no current product owner</div></div><div class="rcr"><div class="rcw">Feb 2025</div><div class="rcc">88% confidence</div><div class="cb"><div class="cf" style="width:88%"></div></div></div></div>
+  <div class="rc" id="rc2" onclick="selR(2)"><div class="ri rih">⚡</div><div style="flex:1"><div class="rct">Senior TA Partner · Tech</div><div class="rcm">Attrition 14% · tech cluster · replacement imminent</div></div><div class="rcr"><div class="rcw">Dec 2024</div><div class="rcc">84% confidence</div><div class="cb"><div class="cf" style="width:84%"></div></div></div></div>
+  <div class="rc" id="rc3" onclick="selR(3)"><div class="ri rim">◆</div><div style="flex:1"><div class="rct">VP Partnerships · B2B Fintech</div><div class="rcm">B2B pipeline growing · gap in workforce plan</div></div><div class="rcr"><div class="rcw">Mar 2025</div><div class="rcc">76% confidence</div><div class="cb"><div class="cf" style="width:76%"></div></div></div></div>
+  <div class="rc" id="rc4" onclick="selR(4)"><div class="ri rim">◆</div><div style="flex:1"><div class="rct">Commercial Analyst · EMEA <span style="font-size:9px;color:var(--teal);background:rgba(0,229,204,0.12);padding:1px 5px;border-radius:3px;margin-left:3px">×3</span></div><div class="rcm">Territory expansion · 3 analyst seats</div></div><div class="rcr"><div class="rcw">Jan–Feb 2025</div><div class="rcc">72% confidence</div><div class="cb"><div class="cf" style="width:72%"></div></div></div></div>
+  <div class="rc" id="rc5" onclick="selR(5)"><div class="ri ril">●</div><div style="flex:1"><div class="rct">Tech Lead · Payments API</div><div class="rcm">Q4 product launch · attrition risk flag</div></div><div class="rcr"><div class="rcw">Feb 2025</div><div class="rcc">68% confidence</div><div class="cb"><div class="cf" style="width:68%"></div></div></div></div>
+
+  <div style="padding:10px 14px;background:var(--bg2);border:1px solid var(--border2);border-radius:8px;margin-top:2px;font-size:11px;color:var(--off)">+ 5 more roles at &lt;65% confidence · <span onclick="showMore(this)" style="color:var(--p1);cursor:pointer;font-weight:600">Show Q2 predictions</span></div>
+  <div class="nb" style="margin-top:14px"><button class="bs" onclick="goto(2)">← Back</button><button class="bp" onclick="goto(4)">Find talent in The Book →</button></div>
+</div>
+
+<!-- ═══ PANEL 4: THE BOOK ═══ -->
+<div class="panel" id="p4">
+  <div class="ey">05 · The Book · Execution layer</div>
+  <div class="ti">The muscle fires.</div>
+  <div class="sb">Pre-vetted finalists — matched, briefed, and availability-confirmed by C2.</div>
+
+  <div class="tsh">
+    <div><div class="tsht" id="tsht">Senior Commercial Director · EMEA</div><div class="tshs" id="tshs">Jan 2025 · 94% confidence · 3 finalists ready</div></div>
+    <div style="text-align:right"><div class="tshn" id="tshn">3</div><div style="font-size:10px;color:var(--off)">pipeline ready</div></div>
+  </div>
+
+  <!-- Talent Set 0 -->
+  <div id="ts0">
+    <div class="tc top"><div class="tct"><div class="av" style="background:linear-gradient(135deg,#7B5CF0,#C850FF)">PS</div><div><div class="tcn">Priya Sharma</div><div class="tcr">Commercial Director · EMEA</div><div class="tcp" style="color:#B09FF8">Ex-Visa</div></div><div class="tcs"><div class="tcsn">96</div><div class="tcsl">match</div></div></div><div class="tags"><span class="tg thi">EMEA commercial</span><span class="tg thi">Fintech P&L</span><span class="tg thi">B2B enterprise</span><span class="tg tn">14 markets</span><span class="tg tn">£400M+ rev</span></div><div class="tq">Led Visa's EMEA commercial expansion across 14 markets — Mastercard's primary competitive territories. Available Q1.</div><div class="tcb"><div class="avl aok"><div class="ad" style="background:#5DFFD0"></div>Available · C2 vetted · briefed</div><div class="acts"><button class="bx bg">Profile</button><button class="bx bt">Request intro</button></div></div></div>
+    <div class="tc"><div class="tct"><div class="av" style="background:linear-gradient(135deg,#1D9E75,#0F6E56)">MR</div><div><div class="tcn">Marcus Reid</div><div class="tcr">Head of Commercial · B2B</div><div class="tcp" style="color:#5DFFD0">Ex-Mastercard</div></div><div class="tcs"><div class="tcsn">91</div><div class="tcsl">match</div></div></div><div class="tags"><span class="tg thi">Built MC B2B</span><span class="tg thi">Partner programmes</span><span class="tg tn">EMEA</span><span class="tg tn">Fintech BD</span></div><div class="tq">Built Mastercard's B2B fintech partner programme from scratch. Institutional knowledge. Open to re-engaging at the right level.</div><div class="tcb"><div class="avl aw"><div class="ad" style="background:#FFD080"></div>Warm · 4wk notice · Q1</div><div class="acts"><button class="bx bg">Profile</button><button class="bx bt">Request intro</button></div></div></div>
+    <div class="tc"><div class="tct"><div class="av" style="background:linear-gradient(135deg,#EF9F27,#BA7517)">LO</div><div><div class="tcn">Lena Okafor</div><div class="tcr">Commercial Lead · Premium cards</div><div class="tcp" style="color:#FFD080">Ex-AmEx</div></div><div class="tcs"><div class="tcsn">87</div><div class="tcsl">match</div></div></div><div class="tags"><span class="tg thi">Premium cards</span><span class="tg thi">Luxury co-brand</span><span class="tg tn">EMEA enterprise</span></div><div class="tq">Led AmEx premium card EMEA — specialist in luxury co-brand partnerships, Mastercard's fastest growing segment. Available immediately.</div><div class="tcb"><div class="avl aok"><div class="ad" style="background:#5DFFD0"></div>Available · C2 engagement badge</div><div class="acts"><button class="bx bg">Profile</button><button class="bx bt">Request intro</button></div></div></div>
+  </div>
+
+  <!-- Talent Set 1 -->
+  <div id="ts1" style="display:none">
+    <div class="tc top"><div class="tct"><div class="av" style="background:linear-gradient(135deg,#185FA5,#378ADD)">JC</div><div><div class="tcn">James Chen</div><div class="tcr">Head of Product · Payments</div><div class="tcp" style="color:#B09FF8">Ex-PayPal</div></div><div class="tcs"><div class="tcsn">94</div><div class="tcsl">match</div></div></div><div class="tags"><span class="tg thi">Payments product</span><span class="tg thi">0→1 launches</span><span class="tg thi">API platforms</span><span class="tg tn">BNPL · B2C</span></div><div class="tq">Launched PayPal's European BNPL product across 8 markets. Exactly the 0-to-1 fintech experience needed for Q4.</div><div class="tcb"><div class="avl aw"><div class="ad" style="background:#FFD080"></div>Warm · 6wk notice · Q1</div><div class="acts"><button class="bx bg">Profile</button><button class="bx bt">Request intro</button></div></div></div>
+    <div class="tc"><div class="tct"><div class="av" style="background:linear-gradient(135deg,#D85A30,#993C1D)">SR</div><div><div class="tcn">Sofia Reyes</div><div class="tcr">Director of Product · Consumer fintech</div><div class="tcp" style="color:#FF9060">Ex-Revolut</div></div><div class="tcs"><div class="tcsn">89</div><div class="tcsl">match</div></div></div><div class="tags"><span class="tg thi">Cards product</span><span class="tg thi">Consumer growth</span><span class="tg tn">EMEA regulation</span></div><div class="tq">Built Revolut's premium card tier — maps directly to Mastercard's premium segment expansion.</div><div class="tcb"><div class="avl aok"><div class="ad" style="background:#5DFFD0"></div>Available · actively looking · vetted</div><div class="acts"><button class="bx bg">Profile</button><button class="bx bt">Request intro</button></div></div></div>
+  </div>
+
+  <!-- Talent Set 2 -->
+  <div id="ts2" style="display:none">
+    <div class="tc top"><div class="tct"><div class="av" style="background:linear-gradient(135deg,#7B5CF0,#1D9E75)">AK</div><div><div class="tcn">Aisha Kone</div><div class="tcr">Senior TA Partner · Technical hiring</div><div class="tcp" style="color:#5DFFD0">Ex-Stripe</div></div><div class="tcs"><div class="tcsn">93</div><div class="tcsl">match</div></div></div><div class="tags"><span class="tg thi">Tech talent</span><span class="tg thi">Payments eng.</span><span class="tg tn">EMEA build</span><span class="tg tn">Scale hiring</span></div><div class="tq">Built Stripe's EMEA technical talent function from 2 to 40 engineers. Deep fintech network to address Mastercard's tech attrition risk.</div><div class="tcb"><div class="avl aok"><div class="ad" style="background:#5DFFD0"></div>Available · vetted · Dec ready</div><div class="acts"><button class="bx bg">Profile</button><button class="bx bt">Request intro</button></div></div></div>
+  </div>
+
+  <!-- Talent Set 3 -->
+  <div id="ts3" style="display:none">
+    <div class="tc top"><div class="tct"><div class="av" style="background:linear-gradient(135deg,#EF9F27,#7B5CF0)">TM</div><div><div class="tcn">Tom Marchetti</div><div class="tcr">VP Partnerships · B2B ecosystems</div><div class="tcp" style="color:#B09FF8">Ex-Visa B2B</div></div><div class="tcs"><div class="tcsn">88</div><div class="tcsl">match</div></div></div><div class="tags"><span class="tg thi">B2B partnerships</span><span class="tg thi">Fintech ecosystem</span><span class="tg tn">120+ partners</span></div><div class="tq">Ran Visa's B2B fintech partner ecosystem EMEA — Mastercard's direct competitive set. Available Q1.</div><div class="tcb"><div class="avl aw"><div class="ad" style="background:#FFD080"></div>8wk notice · Q1 start</div><div class="acts"><button class="bx bg">Profile</button><button class="bx bt">Request intro</button></div></div></div>
+  </div>
+
+  <!-- Talent Set 4 -->
+  <div id="ts4" style="display:none">
+    <div class="tc top"><div class="tct"><div class="av" style="background:linear-gradient(135deg,#378ADD,#1D9E75)">DK</div><div><div class="tcn">David Kimani</div><div class="tcr">Commercial Analyst · Market expansion</div><div class="tcp" style="color:#5DFFD0">Ex-Mastercard</div></div><div class="tcs"><div class="tcsn">85</div><div class="tcsl">match</div></div></div><div class="tags"><span class="tg thi">EMEA expansion</span><span class="tg thi">Commercial analytics</span><span class="tg tn">Market sizing</span></div><div class="tq">3 years EMEA analytics at Mastercard. Institutional knowledge + fresh perspective. One of 3 analysts ready Jan.</div><div class="tcb"><div class="avl aok"><div class="ad" style="background:#5DFFD0"></div>Available · 2 more analysts in pipeline</div><div class="acts"><button class="bx bg">Profile</button><button class="bx bt">Request intro</button></div></div></div>
+  </div>
+
+  <!-- Talent Set 5 -->
+  <div id="ts5" style="display:none">
+    <div class="tc top"><div class="tct"><div class="av" style="background:linear-gradient(135deg,#185FA5,#7B5CF0)">NP</div><div><div class="tcn">Nina Park</div><div class="tcr">Tech Lead · Payments infrastructure</div><div class="tcp" style="color:#B09FF8">Ex-Adyen</div></div><div class="tcs"><div class="tcsn">91</div><div class="tcsl">match</div></div></div><div class="tags"><span class="tg thi">Payments API</span><span class="tg thi">Infrastructure</span><span class="tg tn">Python · Go</span></div><div class="tq">Led Adyen's core payments API team — built for volume, compliance and scale. Right profile for Mastercard's Q4 launch stack.</div><div class="tcb"><div class="avl aok"><div class="ad" style="background:#5DFFD0"></div>Available · Feb start · vetted</div><div class="acts"><button class="bx bg">Profile</button><button class="bx bt">Request intro</button></div></div></div>
+  </div>
+
+  <div class="plstat">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div><div style="font-size:12px;font-weight:700;margin-bottom:2px" id="plt">Pipeline: Senior Commercial Director</div><div style="font-size:11px;color:var(--off)">Role not yet approved · <span style="color:#5DFFD0;font-weight:700">4.2 months ahead of need</span></div></div>
+      <div style="text-align:right"><div style="font-size:15px;font-weight:800" id="plr">3 ready</div><div style="font-size:10px;color:var(--soft)">vs 0 industry avg</div></div>
+    </div>
+    <div class="plbar"><div class="plf" id="plf" style="width:0%"></div></div>
+    <div class="bench">
+      <div class="bi"><div class="bin" style="color:#5DFFD0">4.2mo</div><div class="bil">Lead time</div></div>
+      <div class="bi"><div class="bin" style="color:#FFD080">67d</div><div class="bil">Traditional TTF</div></div>
+      <div class="bi"><div class="bin" style="color:#B09FF8">&lt;24h</div><div class="bil">First candidate</div></div>
+      <div class="bi"><div class="bin" style="color:#5DFFD0">£74k</div><div class="bil">Cost saving</div></div>
+    </div>
+  </div>
+
+  <div style="margin-top:14px"><button class="bp" onclick="goto(5)" style="width:100%">Test your EVP against this talent →</button></div>
+
+  <div class="nb">
+    <button class="bs" onclick="goto(3)">← Back to roles</button>
+    <div style="display:flex;gap:8px">
+      <button class="bs" onclick="prevR()">← Prev</button>
+      <button class="bp" onclick="nextR()">Next role →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PANEL 5: EVP TESTING ═══ -->
+<div class="panel" id="p5">
+  <div class="ey">06 · EVP Testing</div>
+  <div class="ti">Does your pitch attract the talent you need?</div>
+  <div class="sb">Test your Employee Value Proposition against what The Book's talent pool actually responds to.</div>
+
+  <!-- Input view -->
+  <div id="evp-in">
+    <div class="lbl">Paste your EVP or job ad copy</div>
+    <div class="card" style="margin-bottom:14px">
+      <div style="font-size:11px;color:var(--off);margin-bottom:10px">Paste your current EVP statement, careers page copy, or job ad below. We'll score it against what the matched talent actually cares about.</div>
+      <textarea class="evp-textarea" id="evp-text">At Mastercard, you'll join a global network connecting billions of people to Priceless possibilities. We offer market-leading compensation, hybrid working, career development across 80+ countries, and the chance to work on technology that powers the global economy.</textarea>
+    </div>
+
+    <div class="lbl">Which role are you attracting for?</div>
+    <div class="evp-role-pick" id="evp-picks">
+      <div class="rc sel" onclick="pickRole(this,'Sr Commercial Director')"><div style="flex:1"><div class="rct" style="font-size:12px">Sr Commercial Director</div><div class="rcm">EMEA · Jan 2025</div></div></div>
+      <div class="rc" onclick="pickRole(this,'Head of Product')"><div style="flex:1"><div class="rct" style="font-size:12px">Head of Product</div><div class="rcm">Fintech · Feb 2025</div></div></div>
+      <div class="rc" onclick="pickRole(this,'Tech Lead')"><div style="flex:1"><div class="rct" style="font-size:12px">Tech Lead</div><div class="rcm">Payments API · Feb 2025</div></div></div>
+    </div>
+
+    <button class="bp" onclick="runEvp()" style="width:100%">Analyse EVP →</button>
+    <div class="nb" style="margin-top:14px"><button class="bs" onclick="goto(4)">← Back to The Book</button></div>
+  </div>
+
+  <!-- Processing view -->
+  <div id="evp-proc" style="display:none">
+    <div class="proc">
+      <div class="pr"></div>
+      <div style="font-size:13px;font-weight:600;margin-bottom:3px">Analysing your EVP</div>
+      <div style="font-size:11px;color:var(--off)">Comparing against talent pool preferences</div>
+      <div class="psteps">
+        <div class="ps" id="ep1"><div class="pc">✓</div>Scanning EVP for key themes</div>
+        <div class="ps" id="ep2"><div class="pc">✓</div>Mapping against candidate priorities</div>
+        <div class="ps" id="ep3"><div class="pc">✓</div>Benchmarking vs competitor EVPs</div>
+        <div class="ps" id="ep4"><div class="pc">✓</div>Identifying gaps and strengths</div>
+        <div class="ps" id="ep5"><div class="pc">✓</div>Generating improvement suggestions</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results view -->
+  <div id="evp-res" style="display:none">
+    <div class="tsh" style="margin-bottom:16px">
+      <div><div class="tsht" id="evp-role-label">EVP Score · Sr Commercial Director</div><div class="tshs">Scored against matched candidates in The Book</div></div>
+      <div style="text-align:right"><div class="tshn" id="evp-score" style="-webkit-text-fill-color:initial">72</div><div style="font-size:10px;color:var(--off)">out of 100</div></div>
+    </div>
+
+    <div class="lbl">Score by dimension</div>
+    <div id="evp-dims" style="margin-bottom:16px"></div>
+
+    <div class="div"></div>
+    <div class="lbl">What this talent pool actually wants</div>
+    <div class="card" style="margin-bottom:16px" id="evp-wants"></div>
+
+    <div class="div"></div>
+    <div class="lbl">Gaps to fix</div>
+    <div id="evp-gaps" style="margin-bottom:16px"></div>
+
+    <div class="div"></div>
+    <div class="lbl">Stronger EVP — suggested rewrite</div>
+    <div class="card" style="margin-bottom:22px;border-color:rgba(0,229,204,0.3)">
+      <div style="font-size:10px;font-weight:800;color:var(--teal);letter-spacing:.8px;margin-bottom:8px">STRONGER VERSION</div>
+      <div style="font-size:12px;color:var(--off);line-height:1.65;font-style:italic" id="evp-rewrite"></div>
+    </div>
+
+    <div class="nb">
+      <button class="bs" onclick="resetEvp()">← Test another EVP</button>
+      <button class="bp" onclick="goto(4)">Back to talent</button>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+var cur=0,role=0,fcDone=false,procDone=false,evpRole='Sr Commercial Director';
+
+var rd=[
+  {t:'Senior Commercial Director · EMEA',s:'Jan 2025 · 94% confidence · 3 finalists ready',n:3},
+  {t:'Head of Product · Fintech',s:'Feb 2025 · 88% confidence · 2 finalists ready',n:2},
+  {t:'Senior TA Partner · Tech',s:'Dec 2024 · 84% confidence · 1 finalist ready',n:1},
+  {t:'VP Partnerships · B2B Fintech',s:'Mar 2025 · 76% confidence · 1 finalist ready',n:1},
+  {t:'Commercial Analyst · EMEA x3',s:'Jan–Feb 2025 · 72% confidence · 3 analysts ready',n:3},
+  {t:'Tech Lead · Payments API',s:'Feb 2025 · 68% confidence · 1 finalist ready',n:1}
+];
+
+var evpDB={
+  'Sr Commercial Director':{
+    score:72,
+    dims:[
+      {l:'Compensation & reward',s:85,c:'#5DFFD0',n:'Strong — market-leading mentioned explicitly'},
+      {l:'Career progression',s:78,c:'#5DFFD0',n:'Good — 80+ countries suggests real scale'},
+      {l:'Autonomy & P&L ownership',s:52,c:'#FFD080',n:'Weak — no mention of territory ownership or scope'},
+      {l:'Purpose & mission',s:80,c:'#5DFFD0',n:'Strong — global economy framing resonates at Director level'},
+      {l:'Flexibility',s:74,c:'#FFD080',n:'OK — hybrid mentioned but no real detail'},
+      {l:'Peer quality',s:45,c:'#FF9060',n:'Missing — senior talent want to know who they will work with'}
+    ],
+    wants:[
+      {l:'Ownership of a P&L or territory',p:91},
+      {l:'Calibre of the leadership team',p:84},
+      {l:'Scope to build rather than inherit',p:79},
+      {l:'Speed of decision-making',p:72},
+      {l:'Competitive base plus equity',p:68}
+    ],
+    gaps:[
+      {g:'No mention of ownership or P&L responsibility',f:'Add: "Lead your own P&L and build the commercial team around you"'},
+      {g:'Peer quality not addressed',f:'Name the calibre of who they will work alongside — not just the company'},
+      {g:'Speed and culture of decision-making missing',f:'Address how fast Mastercard moves and how commercial decisions get made'}
+    ],
+    rewrite:'"At Mastercard, commercial leaders own their market. You will run a real P&L, build your team from the ground up, and move fast in a company that backs its people with the infrastructure of a global network. You will work alongside some of the sharpest commercial minds in fintech, in a role where your impact is visible at the highest level."'
+  },
+  'Head of Product':{
+    score:64,
+    dims:[
+      {l:'Scope to build 0 to 1',s:40,c:'#FF9060',n:'Weak — no mention of new product creation or greenfield opportunity'},
+      {l:'Technical infrastructure',s:72,c:'#FFD080',n:'OK — implied by scale but not stated clearly'},
+      {l:'Autonomy & decision rights',s:55,c:'#FFD080',n:'Moderate — large company can feel process-heavy to product people'},
+      {l:'Compensation',s:82,c:'#5DFFD0',n:'Strong — market-leading lands well for senior product hires'},
+      {l:'Innovation culture',s:48,c:'#FF9060',n:'Weak — no signals of experimentation or speed to ship'},
+      {l:'User scale',s:90,c:'#5DFFD0',n:'Outstanding — billions of users is the strongest product hook available'}
+    ],
+    wants:[
+      {l:'Ability to ship fast and own decisions',p:88},
+      {l:'Real user scale and measurable impact',p:85},
+      {l:'Strong engineering partners to work with',p:80},
+      {l:'Culture that tolerates failure and learns fast',p:74},
+      {l:'Equity or long-term incentive',p:70}
+    ],
+    gaps:[
+      {g:'No signal of 0-to-1 product work or greenfield opportunity',f:'Highlight the new Q4 product launches and what the product leader will own'},
+      {g:'Culture feels corporate to product people',f:'Use internal startup language — speed, ownership, experimentation'},
+      {g:'Engineering quality not mentioned',f:'Product leaders want to know the calibre of engineers they will partner with'}
+    ],
+    rewrite:'"At Mastercard, you ship products used by billions — not millions. You will lead new product development end-to-end, work with world-class engineers, and have genuine ownership over the roadmap. We move faster than you would expect from a company of this scale, and we give product leaders the space to build."'
+  },
+  'Tech Lead':{
+    score:68,
+    dims:[
+      {l:'Technical challenge & depth',s:82,c:'#5DFFD0',n:'Strong — payments infrastructure at scale is a genuinely hard problem'},
+      {l:'Modern stack and tooling',s:55,c:'#FFD080',n:'Unclear — large company perception is legacy tech, not addressed'},
+      {l:'Engineering culture',s:60,c:'#FFD080',n:'Moderate — not addressed in current EVP at all'},
+      {l:'Compensation',s:80,c:'#5DFFD0',n:'Strong — market-leading works well for senior engineers'},
+      {l:'Open source and community',s:42,c:'#FF9060',n:'Missing — important signal for many senior engineers'},
+      {l:'Scale of problem',s:92,c:'#5DFFD0',n:'Outstanding — global payments at this scale is extremely rare'}
+    ],
+    wants:[
+      {l:'Genuinely hard technical problems',p:94},
+      {l:'Modern, well-maintained stack',p:88},
+      {l:'Engineers respected in leadership decisions',p:82},
+      {l:'Competitive total comp including equity',p:75},
+      {l:'Flexibility and remote options',p:70}
+    ],
+    gaps:[
+      {g:'Stack and tooling perception gap — legacy concern unaddressed',f:'Be explicit about modern infrastructure and address the legacy assumption head-on'},
+      {g:'Engineering culture invisible in the EVP',f:'Describe how engineering decisions are made and who owns the architecture'},
+      {g:'No technical scope or scale quantified',f:'Use real numbers — transactions per second, uptime requirements, data volumes'}
+    ],
+    rewrite:'"Mastercard\'s engineering team solves problems most engineers never get near — billions of transactions, 99.999% uptime, real-time fraud detection at global scale. We use a modern, well-maintained stack and give engineers a real voice in architecture decisions. If you want a technically hard problem and the infrastructure to solve it properly, this is it."'
+  }
+};
+
+function goto(n){
+  document.querySelectorAll('.panel').forEach(function(p,i){p.classList.toggle('active',i===n);});
+  document.querySelectorAll('.step').forEach(function(s,i){s.classList.toggle('active',i===n);s.classList.toggle('done',i<n);});
+  cur=n;
+  if(n===1){setTimeout(function(){document.querySelectorAll('.sf[data-w]').forEach(function(e){e.style.width=e.dataset.w+'%';});},80);}
+  if(n===2&&!procDone){startProc();}
+  if(n===2&&procDone){showFC();}
+  if(n===4){showT(role);setTimeout(function(){document.getElementById('plf').style.width='70%';},150);}
+  if(n===5){showEvpInput();}
+}
+
+function runForecast(){goto(2);}
+
+function startProc(){
+  ['ps1','ps2','ps3','ps4','ps5','ps6'].forEach(function(id){document.getElementById(id).classList.remove('done');});
+  var i=0;
+  var t=setInterval(function(){
+    if(i<6){document.getElementById('ps'+(i+1)).classList.add('done');i++;}
+    else{clearInterval(t);procDone=true;setTimeout(showFC,400);}
+  },600);
+}
+
+function showFC(){
+  document.getElementById('pv').style.display='none';
+  document.getElementById('fv').style.display='block';
+  if(!fcDone){
+    new Chart(document.getElementById('fcc'),{
+      type:'bar',
+      data:{
+        labels:['Nov 24','Dec 24','Jan 25','Feb 25','Mar 25','Apr 25'],
+        datasets:[
+          {label:'Predicted',data:[2,1,4,3,1,0],backgroundColor:'#7B5CF0',borderRadius:3,barPercentage:.5},
+          {label:'Pipeline',data:[2,1,3,2,0,0],backgroundColor:'rgba(200,80,255,0.3)',borderRadius:3,barPercentage:.5}
+        ]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        scales:{
+          x:{grid:{color:'rgba(255,255,255,0.06)'},ticks:{color:'rgba(255,255,255,0.5)',font:{size:10,family:'Raleway'}}},
+          y:{grid:{color:'rgba(255,255,255,0.06)'},ticks:{color:'rgba(255,255,255,0.5)',font:{size:10,family:'Raleway'},stepSize:1},min:0,max:5}
+        }
+      }
+    });
+    fcDone=true;
+  }
+}
+
+function selR(i){
+  document.querySelectorAll('.rc').forEach(function(c,j){c.classList.toggle('sel',j===i);});
+  role=i;
+}
+
+function showT(i){
+  document.querySelectorAll('[id^="ts"]').forEach(function(e){e.style.display='none';});
+  var el=document.getElementById('ts'+i);if(el)el.style.display='block';
+  var d=rd[i]||rd[0];
+  document.getElementById('tsht').textContent=d.t;
+  document.getElementById('tshs').textContent=d.s;
+  document.getElementById('tshn').textContent=d.n;
+  document.getElementById('plt').textContent='Pipeline: '+d.t;
+  document.getElementById('plr').textContent=d.n+' ready';
+  var f=document.getElementById('plf');f.style.width='0%';
+  setTimeout(function(){f.style.width=(40+d.n*12)+'%';},100);
+}
+
+function nextR(){if(role<rd.length-1){role++;document.querySelectorAll('.rc').forEach(function(c,i){c.classList.toggle('sel',i===role);});showT(role);window.scrollTo(0,0);}}
+function prevR(){if(role>0){role--;document.querySelectorAll('.rc').forEach(function(c,i){c.classList.toggle('sel',i===role);});showT(role);window.scrollTo(0,0);}}
+
+function showMore(el){
+  el.style.color='var(--soft)';el.style.cursor='default';el.textContent='All predictions shown';
+  var d=document.createElement('div');
+  d.innerHTML='<div class="rc" style="margin-top:7px"><div class="ri ril">○</div><div style="flex:1"><div class="rct">Sr Data Analyst · Insights</div><div class="rcm">M&A due diligence + analytics · Q2</div></div><div class="rcr"><div class="rcw">Apr 2025</div><div class="rcc">58% confidence</div><div class="cb"><div class="cf" style="width:58%"></div></div></div></div><div class="rc" style="margin-top:7px"><div class="ri ril">○</div><div style="flex:1"><div class="rct">Head of Risk · Fintech Products</div><div class="rcm">Regulatory pipeline · Q2 requirement</div></div><div class="rcr"><div class="rcw">May 2025</div><div class="rcc">54% confidence</div><div class="cb"><div class="cf" style="width:54%"></div></div></div></div>';
+  el.closest('div').after(d);
+}
+
+// ── EVP ──────────────────────────────────────────────────────────────
+function showEvpInput(){
+  document.getElementById('evp-in').style.display='block';
+  document.getElementById('evp-proc').style.display='none';
+  document.getElementById('evp-res').style.display='none';
+}
+
+function pickRole(el,name){
+  document.querySelectorAll('#evp-picks .rc').forEach(function(c){c.classList.remove('sel');});
+  el.classList.add('sel');
+  evpRole=name;
+}
+
+function runEvp(){
+  document.getElementById('evp-in').style.display='none';
+  document.getElementById('evp-proc').style.display='block';
+  ['ep1','ep2','ep3','ep4','ep5'].forEach(function(id){document.getElementById(id).classList.remove('done');});
+  var i=0;
+  var t=setInterval(function(){
+    if(i<5){document.getElementById('ep'+(i+1)).classList.add('done');i++;}
+    else{clearInterval(t);setTimeout(showEvpResults,400);}
+  },550);
+}
+
+function showEvpResults(){
+  document.getElementById('evp-proc').style.display='none';
+  document.getElementById('evp-res').style.display='block';
+  var d=evpDB[evpRole]||evpDB['Sr Commercial Director'];
+
+  // Score
+  var sEl=document.getElementById('evp-score');
+  sEl.textContent=d.score;
+  var sc=d.score>=80?'linear-gradient(90deg,#5DFFD0,#1D9E75)':d.score>=65?'linear-gradient(90deg,#B09FF8,#F06FFF)':'linear-gradient(90deg,#FFD080,#FF9060)';
+  sEl.style.background=sc;sEl.style.webkitBackgroundClip='text';sEl.style.webkitTextFillColor='transparent';sEl.style.backgroundClip='text';
+  document.getElementById('evp-role-label').textContent='EVP Score · '+evpRole;
+
+  // Dimensions
+  var dimsEl=document.getElementById('evp-dims');
+  dimsEl.innerHTML=d.dims.map(function(dim){
+    return '<div class="evp-dim"><div class="evp-dim-row"><span class="evp-dim-label">'+dim.l+'</span><span class="evp-dim-score" style="color:'+dim.c+'">'+dim.s+'</span></div><div class="evp-dim-bar"><div class="evp-dim-fill" style="width:'+dim.s+'%;background:'+dim.c+'"></div></div><div class="evp-dim-note">'+dim.n+'</div></div>';
+  }).join('');
+
+  // What they want
+  var wEl=document.getElementById('evp-wants');
+  wEl.innerHTML=d.wants.map(function(w){
+    return '<div class="want-row"><span class="want-label">'+w.l+'</span><span class="want-pct">'+w.p+'%</span><div class="want-bar"><div class="want-fill" style="width:'+w.p+'%"></div></div></div>';
+  }).join('');
+
+  // Gaps
+  var gEl=document.getElementById('evp-gaps');
+  gEl.innerHTML=d.gaps.map(function(g){
+    return '<div class="gap-card"><div class="gap-top">Gap: '+g.g+'</div><div class="gap-bot">Fix: '+g.f+'</div></div>';
+  }).join('');
+
+  // Rewrite
+  document.getElementById('evp-rewrite').textContent=d.rewrite;
+}
+
+function resetEvp(){
+  document.getElementById('evp-res').style.display='none';
+  document.getElementById('evp-in').style.display='block';
+}
+</script>
+</body>
+</html>
